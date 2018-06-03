@@ -1,0 +1,47 @@
+CREATE TABLE `customers` (
+  `customer_id` int(11) NOT NULL AUTO_INCREMENT,
+  `customer_name` varchar(50) NOT NULL,
+  `customer_email` varchar(200) NOT NULL,
+  `customer_password` varchar(8) NOT NULL,
+  PRIMARY KEY (`customer_id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+CREATE TABLE `restaurants` (
+  `restaurant_id` int(11) NOT NULL AUTO_INCREMENT,
+  `restaurant_name` varchar(50) NOT NULL,
+  `restaurant_email` varchar(200) NOT NULL,
+  `restaurant_phone` varchar(20) NOT NULL,
+  PRIMARY KEY (`restaurant_id`)
+) 
+
+ALTER TABLE `products` ADD `id_restaurant`int(11) NOT NULL;
+
+CREATE TABLE `orders_products` (
+  `order_id` int(11) NOT NULL,
+  `product_id` int(11) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`order_id`, `product_id`),
+  KEY `order_id` (`order_id`),
+  KEY `product_id` (`product_id`),
+  CONSTRAINT `order_id_ibfk_1` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`),
+  CONSTRAINT `product_id_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`)
+) 
+
+CREATE TABLE `orders_products` (
+  `order_id` int(10) NOT NULL,
+  `product_id` int(10) NOT NULL,
+  `quantity` int(11) NOT NULL,
+  PRIMARY KEY (`order_id`,`product_id`),
+  KEY `fk_orderproduct_order_idx` (`order_id`),
+  CONSTRAINT `fk_orderproduct_order` FOREIGN KEY (`order_id`) REFERENCES `orders` (`order_id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_orderproduct_product` FOREIGN KEY (`product_id`) REFERENCES `products` (`product_id`) ON DELETE CASCADE ON UPDATE CASCADE
+) 
+
+
+alter table order_items add 
+CONSTRAINT `order_id_ibfk_1` FOREIGN KEY (`order_item_order`) REFERENCES `orders` (`order_id`),
+
+alter table order_items add 
+  CONSTRAINT `product_id_ibfk_2` FOREIGN KEY (`order_item_product`) REFERENCES `products` (`product_id`)
